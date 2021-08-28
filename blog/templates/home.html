@@ -1,0 +1,328 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=aw8dcv6suh"></script>
+
+<style>
+
+.image-box {
+    float: center;
+    width: 100%;
+    height:300px;
+    overflow:hidden;
+    margin:0 auto;
+}
+
+.img-thumbnail {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    position: relative;
+}
+
+.text {
+    position: absolute;
+    top:200px;
+    left:80px;
+}
+
+.img-text {
+    position: absolute;
+    z-index: 1;
+    color: white;
+    font-weight: bold;
+    top: 90px;
+    left: 20px;
+    font-size:3em;
+    width: 1000px;
+    text-align: right;
+}
+
+.description {
+    text-align: left;
+}
+
+#map {
+    width: 30px;
+    height: 30px;
+}
+
+.smallsub {
+    text-align: left;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.smallsub p {
+    text-align: left;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.slide {
+    width: 500px;
+    height: 300px;
+    display: block;
+    margin: auto;
+    margin-bottom: 50px;
+}
+
+.location {
+    padding: 5px;
+    background-color:snow;
+    text-align: center;
+}
+
+.location span {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.thumb {
+    text-align: center;
+    display: block;
+    margin: auto;
+}
+
+</style>
+</head>
+
+<div class="image-box">
+        <img class="img-thumbnail" src="{% static 'thumbnail.png'%}">
+        <div class="text"><h1 class="img-text">향기로 기억되는 음식</h1></div>
+</div>
+
+<br>
+
+<div class="description">
+요리는 물론 약으로도 사용하는 허브는 오랜 시간 다양한 모습으로 인류와 함께해왔다. 
+알려진 종류만 해도 약 2500종에 달하고, 나열하기 어려울 만큼 많은 종류의 허브는 각각의 맛과 향, 그리고 활용법을 지니고 있다. 
+게다가 집에서 재배하기도 쉬워 요리에 활용하는 소소한 즐거움까지 누릴 수 있다. 
+현대카드 쿠킹 라이브러리에서 당신의 식탁을 건강하고 향기롭게 완성해줄 매력적인 식재료 허브를 만나보자.
+</div><br><br>
+
+<div class="smallsub">
+    맛을 한 단계 올려주는
+    <p>허브 테이스팅 노트<p>
+</div>
+
+<div class="slide">
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img id="slideimg" src="{% static 'tasting-1.png'%}" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img id="slideimg" src="{% static 'tasting-2.png'%}" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img id="slideimg" src="{% static 'tasting-3.png'%}" class="d-block w-100" alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+
+<div class="description">
+허브는 ‘푸른 풀’을 의미하는 라틴어 ‘허바(Herba)’가 어원으로, 
+음식의 맛과 향을 놀랍도록 끌어 올리는가 하면 완성한 플레이트에 장식한 허브잎 몇 장이 
+요리의 포인트가 되어주기도 한다. 좀 더 근사한 식탁을 위해서는 몇 가지 필승 조합을 알아두면 유용하다. 
+토마토는 바질과 함께, 생선은 딜, 육류는 오레가노와 함께. 
+이 같은 간단한 공식만 알고 있어도 마치 셰프의 비법을 훔쳐본 것처럼 풍성한 맛을 즐길 수 있다. 
+이번 푸드 테마에 맞춰 현대카드 쿠킹 라이브러리 1층 오픈 키친과 2층 전시장에서는 각종 허브가 지닌 고유의 맛과 향을 알아보고, 
+그에 어울리는 요리와 활용법을 공개한다. 
+이 중 다양한 허브 향이 어우러진 오일과 소금은 Ingredients House에서도 직접 만나볼 수 있다.
+</div>
+
+<br><br>
+<div class="smallsub">
+    도전! 셰프의 정원
+    <p>허브 가드닝 레시피<p>
+</div>
+
+<div class="slide">
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img id="slideimg" src="{% static 'gardening-1.png'%}" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img id="slideimg" src="{% static 'gardening-2.png'%}" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img id="slideimg" src="{% static 'gardening-3.png'%}" class="d-block w-100" alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+
+<div class="description">
+가장 신선한 허브를 맛볼 수 있는 방법은 다름 아닌 직접 키우는 것! 
+최근 집에 있는 시간이 길어지면서 홈 가드닝(home gardening)과 베란다 한쪽에서 채소를 키우는 
+홈 파밍(home farming)이 트렌드로 떠올랐다. 
+집에서 허브를 기르면 딱 필요한 양만 사용할 수 있고, 장기간 보관을 고민할 필요도 없다. 
+집 안 가득 퍼지는 향기로운 허브 향은 덤. 어디서도 잘 자라는 종이 있는가 하면, 
+많은 정성을 쏟아야 하는 허브도 있다. 
+이번 현대카드 쿠킹 라이브러리에서는 성공적인 허브 가드닝을 위한 재배 방법과 가드닝 팁까지 제시한다.
+</div>
+
+<br><br>
+<div class="smallsub">
+    무조건 성공하는
+    <p>홈 가드닝 툴<p>
+</div>
+
+<div class="slide">
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img id="slideimg" src="{% static 'tool-1.png'%}" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img id="slideimg" src="{% static 'tool-2.png'%}" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img id="slideimg" src="{% static 'tool-3.png'%}" class="d-block w-100" alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+
+<div class="description">
+고수는 장비를 탓하지 않는다지만, 다양하고 감각적인 툴을 모으는 것도 홈 가드닝의 재미. 
+푸드 테마 전시 기간 동안 현대카드 쿠킹 라이브러리에서는 허브 재배에 꼭 필요한 가드닝 툴과 함께 가드너에게 도움 되는 <허브, Herbalium>, 
+<키친 허브: 직접 키워서 건강하게 먹는>, <나만의 실내 정원> 등 관련 도서를 1층 MD 존에서 판매한다. 
+나만의 허브 정원을 완성하는 데 도움이 될 뿐 아니라 최신 가드닝 트렌드까지 한눈에 볼 수 있도록 구성했으니 꼭 방문해보자.
+</div>
+
+<br><br>
+<div class="smallsub">
+    <p>현대카드 쿠킹 라이브러리<p>
+</div>
+
+<div class="description">
+현대카드 쿠킹 라이브러리는 가장 보편적이고 친숙한 주제의 쿠킹과 관련한 입체적이고 공감각적인 경험을 제공한다. 
+레시피 이상의 지적 경험을 선사할 1만여 권의 풍부한 쿠킹 도서와 요리의 즐거움을 일깨워주는 다양한 쿠킹 프로그램이 오감을 자극한다. 
+또 엄선한 제철 식재료로 만든 맛있는 한 끼를 선보이는 캐주얼 다이닝 델리와 도심 속 루프톱 가든에서 즐기는 프라이빗 다이닝 그린하우스에서는 미식의 즐거움을 만끽할 수 있다. 
+책을 읽고 요리를 하고 음식을 맛보기까지, 음식에 대한 맛있는 영감으로 가득한 공간이다.
+</div>
+
+<br>
+
+
+    <div id="map" style="width:100%;height:400px;"></div>
+    <script>
+        var map = new naver.maps.Map('map', {
+        scaleControl: false,
+        logoControl: false,
+        mapDataControl: false,
+        zoomControl: true,
+        minZoom: 6,
+        center: new naver.maps.LatLng(37.5256517,127.0356618),
+        zoom: 20
+    }); 
+
+        var marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(37.5256517,127.0356618),
+        map: map
+    });
+
+    var boan = new naver.maps.LatLng(37.5256517,127.0356618),
+        map = new naver.maps.Map('map', {
+        center: boan,
+        zoom: 15
+    }),
+        marker = new naver.maps.Marker({
+        map: map,
+        position: boan
+    });
+
+var contentString = [
+        '<div class="iw_inner">',
+        '   <h3>현대카드 쿠킹 <br>라이브러리</h3>',
+        '   <p>서울시 강남구 압구정로46길 46<br />',
+        '       <img src="static/interior.png" width="100" height="100" class="thumb" /><br />',
+        '       <a href="https://dive.hyundaicard.com/web/content/contentView.hdc?contentId=3730&cookieDiveWeb=Y" target="_blank">원본 포스트로 이동</a>',
+        '   </p>',
+        '</div>'
+    ].join('');
+
+var infowindow = new naver.maps.InfoWindow({
+    content: contentString,
+    maxWidth: 230,
+    backgroundColor: "snow",
+    borderColor: "#2db400",
+    borderWidth: 5,
+    anchorSize: new naver.maps.Size(50, 50),
+    anchorSkew: true,
+    anchorColor: "#eee",
+    pixelOffset: new naver.maps.Point(20, -20)
+});
+
+naver.maps.Event.addListener(marker, "click", function(e) {
+    if (infowindow.getMap()) {
+        infowindow.close();
+    } else {
+        infowindow.open(map, marker);
+    }
+});
+</script>
+</div>
+
+<br>
+<div class="location">
+<span>주소</span>서울시 강남구 압구정로46길 46<br>
+<span>운영 시간</span>낮 12시~오후 9시(화~토요일), 낮 12~오후 6시(일요일·공휴일)<br>
+<span>전화</span>02-513-2900
+</div>
+
+<br>
+<button type="button" class="btn btn-outline-dark">
+    <a id="buttontext" href="{%url 'gallery' %}">포스팅 상세정보 확인하러 가기</a>
+</button>
+
+
+{% endblock %}

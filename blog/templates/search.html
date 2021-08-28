@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+    .thumbimg {
+        width: 100px;
+        height: 100px;
+    }
+
+    .article-title {
+        font-size:1.5em;
+        color: black;
+    }
+
+</style>
+
+    {% if searched %}
+        <h2 style="margin-bottom:50px;"><i>{{searched}} 검색 결과</i></h2>
+        <hr>
+        {% if searched_posts %}
+
+            {% for post in searched_posts %}
+            <article class="media content-section">
+                <div class="media-body">
+                {% if post.image %}
+                    <img class="thumbimg" src="{{post.image.url}}" alt="엑박"><br>
+                {% endif %}
+                <a class="article-title" href="{%url 'detail' post.id %}">{{ post.title}}</a><br>
+                </div>
+            </article><br>
+            {% endfor %}
+
+        {% else %}
+        <p>찾으시는 정보가 없습니다.</p>
+        {% endif %}
+
+    {% else %}
+        <h1>다시 검색해보세요</h1>
+    {% endif %}
+
+
+    
+{% endblock %}

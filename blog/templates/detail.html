@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+
+.recomment {
+    text-align: left;
+}
+
+.detailimg {
+    width: 30%;
+    height: 40%;
+}
+
+div .first_comment {
+    text-align: left;
+    border: 1px solid dimgrey;
+    border-radius: 10px;
+    padding: 2%;
+}
+
+body {
+    text-align:center;
+}
+
+textarea {
+    width: 70%;
+    height: 50px;
+}
+
+#comment_form {
+    color: white;
+}
+
+#comment_delete {
+    float: right;
+}
+
+#time {
+    font-size: small;
+    font-style: italic;
+    color:dimgrey;
+    text-align: right;
+}
+
+
+</style>
+
+ <h1>{{blog.title}}</h1>
+ {{blog.writer}}<br>
+ {{blog.pub_date|date:'Y-m-d H:i'}}<br>
+ <hr>
+ {{blog.body}}<br>
+ {% if blog.image %}
+ <p><img class="detailimg" src="{{blog.image.url}}" alt=""></p>
+ {% endif %}
+ 
+ <label for="tags">#태그</labe>
+ <span id="tags" class="form-control">
+     {{blog.tag.all | join:", "}}
+ </span>
+
+ <br>
+ <button type="button" class="btn btn-outline-dark">
+    <a id="buttontext" href="{%url 'edit' blog.id %}">수정하기</a><br>
+ </button>
+
+ <button type="button" class="btn btn-outline-dark">
+    <a  id="buttontext" href="{%url 'delete' blog.id %}">삭제하기</a><br>
+ </button>
+
+<hr><br>
+
+
+ <p class="crm">댓글</p>
+    <form method="POST" action="{% url 'create_comment' blog.id %}" id="comment_form">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button id="right" type="submit" class="btn btn-outline-dark">댓글작성</button>
+    </form>
+
+{% for comment in comments %}
+<br>
+<div class="comment">
+    <div class="first_comment">
+        <p id="time">작성 시간: {{comment.created_at|date:'Y-m-d H:i'}}</p>
+        {{comment.body}}
+        <a id="comment_delete" href="{% url 'delete_comment' blog.id comment.id%}">삭제하기</a>
+    </div>
+<div>
+
+    {% for re_comment in re_comments %}
+        {% if comment == re_comment.comment_id %}
+            <div class="recomment">
+            <p id="time">작성 시간: {{re_comment.created_at|date:'Y-m-d H:i'}}</p>
+            {{re_comment.body}}
+            <a id="comment_delete" href="{% url 'delete_comment' blog.id re_comment.id%}">삭제하기</a>
+            <hr>
+        </div>
+        {% endif %}
+    {% endfor %} 
+
+    <p class="crm">대댓글</p>
+    <form id="comment_form" action = "{% url 'create_re_comment' blog.id comment.id%}" method = "post" enctype = "multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit" class="btn btn-dark">대댓글작성</button>
+    </form>
+</div>
+</div>
+{% endfor %}
+
+{% endblock %}

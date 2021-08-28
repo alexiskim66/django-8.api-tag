@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>update</h1>
+
+<form id="update_form" method="post" enctype="multipart/form-data">
+    {%csrf_token%}
+    {{edit_blog.as_p}}
+    <button type="submit">작성</button>
+</form>
+{% endblock %}

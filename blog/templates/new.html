@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<h1>새 글 작성하기</h1>
+
+<form action="{% url 'new' %}" method="post" enctype="multipart/form-data">
+    {%csrf_token%}
+    {{ blog_form | crispy }}
+    <br>
+    <button class="btn btn-outline-dark" type="submit">작성</button>
+</form>
+{% endblock %}

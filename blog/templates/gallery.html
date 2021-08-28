@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<style>
+    #thumbnail {
+        width: 100px;
+        height: 100px;
+        float: left;
+        margin-right: 20px;
+    }
+
+    .hashtag {
+        width: 150px;
+        height: 30px;
+        background-color:lavender;
+        text-align: center;
+        float:right;
+        border-radius:20px;
+    }
+
+    .preview {
+        border: solid 1px black;
+        padding: 10px;
+        border-radius: 10px;
+        text-align: left;
+        padding: 20px;
+        padding-bottom: 30px;
+    }
+
+    #title {
+        font-weight: bold;
+    }
+</style>
+<div id="title">
+    <h1>매거진 상세정보</h1>
+</div>
+<br>
+
+<form class="d-flex" action="{% url 'search' %}" method="post">
+    {%csrf_token%}
+    <select name="type">
+        <option value="title">제목</option>
+        <option value="body">내용</option>
+    </select> 
+    <input class="form-control me-2" type="search" aria-label="Search" placeholder="Search" name="keyword">
+    <button class="btn btn-outline-dark" type="submit">search</button>
+</form><br>
+
+<br>
+{% for blog in blogs %}
+<div class="preview">
+    {% if blog.image %}
+    <img id="thumbnail" src="{{blog.image.url}}" alt="">
+    {% endif %}
+
+    <div class="hashtag">
+        #{{blog.tag.all | join:" #"}}<br>
+    </div>
+
+    <span id="title">{{blog.title}}</span><br>
+    {{blog.summary}}...<br>
+  <button type="button" class="btn btn-outline-dark">
+  <a id="buttontext" href="{%url 'detail' blog.id %}">자세히 알아보기</a>
+ </button><br>
+</div>
+<br>
+{% endfor %}
+
+
+
+
+{% endblock %}
