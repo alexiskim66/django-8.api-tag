@@ -12,7 +12,7 @@ class Blog(models.Model):
     pub_date = models.DateTimeField()
     body = models.TextField()
     image = models.ImageField(upload_to = "blog/", blank=True, null=True)
-    tags = TaggableManager(blank=True)
+    tag = models.ManyToManyField('blog.Tag', verbose_name = "태그")
 
     def __str__(self):
         return self.title
@@ -27,3 +27,15 @@ class Comment(models.Model):
     # author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField()
     body = models.TextField()
+
+class Tag(models.Model):
+    name = models.CharField(max_length=32, verbose_name="태그명")
+    registered_date = models.DateTimeField(auto_now_add=True, verbose_name="등록시간")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = "community_tag"
+        verbose_name = "태그"
+        verbose_name_plural = "태그"

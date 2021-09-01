@@ -7,7 +7,7 @@
     text-align: left;
 }
 
-#detailimg {
+.detailimg {
     width: 30%;
     height: 40%;
 }
@@ -43,9 +43,6 @@ textarea {
     text-align: right;
 }
 
-#tags a {
-    color: green;
-}
 
 </style>
 
@@ -55,19 +52,12 @@ textarea {
  <hr>
  {{blog.body}}<br>
  {% if blog.image %}
- <p><img id="detailimg" src="{{blog.image.url}}" alt=""></p>
+ <p><img class="detailimg" src="{{blog.image.url}}" alt=""></p>
  {% endif %}
  
- <label for="tags">태그</label>
+ <label for="tags">#태그</labe>
  <span id="tags" class="form-control">
-     <!-- {{blog.tag.all | join:", "}} -->
-    {% load taggit_templatetags2_tags %}
-    {% get_tags_for_object blog as "tags" %} 
-    {% for tag in tags %}
-    <a href="{% url 'tagged_object_list' tag.name %}">#{{tag.name}}</a>
-    {% endfor %}
-    <br>
-    *태그를 클릭하여 같은 태그를 가진 다른 게시물을 찾아보세요!
+     {{blog.tag.all | join:", "}}
  </span>
 
  <br>
