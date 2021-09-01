@@ -13,4 +13,6 @@ urlpatterns = [
     path('create_comment/<str:article_id>', create_comment, name="create_comment"),
     path('create_re_comment/<int:article_id>/<str:comment_id>', create_re_comment, name="create_re_comment"),
     path('delete_comment/<int:article_id>/<int:comment_id>', delete_comment, name="delete_comment"),
+    path('tag/', TagCloudTV.as_view(), name='tag_cloud'),
+    path('tag/<str:tag>', TaggedObjectLV.as_view(), name='tagged_object_list'),
 ]

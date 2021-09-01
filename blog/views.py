@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
-from .models import Blog, Comment, Tag
+from .models import Blog, Comment
 from django.utils import timezone
 from .forms import BlogForm, CommentForm
 from django.db.models import Q
 from django import forms
 from django.views.generic import ListView, DetailView, TemplateView
+from taggit.serializers import (TagListSerializerField,
+                                TaggitSerializer)
 
 def home(request):
     blogs = Blog.objects.all()
@@ -39,17 +41,15 @@ def new(request):
         if blog_form.is_valid():
             blog = blog_form.save(commit=False)
             blog.pub_date = timezone.now()
+            # tags = blog_form.cleaned_data['tag'].split(',')
+            # for tag in tags:
+            #     if not tag : 
+            #         continue
+            #     else:
+            #         tag = tag.strip()
+            #         tag_, created = Blog.objects.get_or_create(tags = tag)
+            #         blog.tag.add(tag_)
             blog.save()
-
-            tags = blog_form.cleaned_data['tag'].split(',')
-            for tag in tags:
-                if not tag : 
-                    continue
-                else:
-                    tag = tag.strip()
-                    tag_, created = Tag.objects.get_or_create(name = tag)
-                    blog.tag.add(tag_)
-            
             return redirect('gallery')
     else:
         blog_form = BlogForm()
@@ -109,3 +109,19 @@ def search(request):
         return render(request, 'search.html', {'searched':keyword, 'searched_posts': searched_posts})
     else:
          return render(request, 'search.html')
+
+class TagCloudTV(TemplateView):
+    template_name = 'taggit/taggit_cloud.html'
+
+
+class TaggedObjectLV(ListView):
+    template_name = 'taggit/taggit_post_list.html'
+    model = Blog
+
+    def get_queryset(self):
+        return Blog.objects.filter(tags__name=self.kwargs.get('tag'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tagname'] = self.kwargs['tag']
+        return context

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .tag-cloud{
+        width: 100%;
+        margin-left: 30px;
+        text-align: center;
+        padding: 5px;
+        background-color: snow;
+    }
+
+    .tag-1 {font-size: 16px}
+    .tag-2 {font-size: 18px}
+    .tag-3 {font-size: 20px}
+    .tag-4 {font-size: 22px}
+    .tag-5 {font-size: 24px}
+    .tag-6 {font-size: 26px}
+
+    span a {
+        color: green;
+    }
+</style>
+
+    <h1>전체 태그 살펴보기</h1>
+    <br>
+
+    <div class="tag-cloud">
+        {% load taggit_templatetags2_tags %}
+        {% get_tagcloud as tags %} <!--모든 태그 추출해서 tags변수에 할당-->
+        {% for tag in tags %}
+        <span class="tag-{{tag.weight|floatformat:0}}"> <!-- style 관련-->
+            <a href="{% url 'tagged_object_list' tag.name %}"> {{tag.name}}({{tag.num_times}}개 포스트)</a><br>
+        </span>
+        {% endfor %}
+    </div>
+{% endblock %}
